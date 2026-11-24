@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paradigmas de lo humano: El valor de la experiencia humana</title>
+<style>
+  :root {
+    --morado: #46178f; --morado2: #864cbf; --rojo: #e21b3c; --azul: #1368ce;
+    --amarillo: #d89e00; --verde: #26890c; --fondo: #f4f1fa; --texto: #2b2540;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Segoe UI", Arial, sans-serif; background: var(--fondo); color: var(--texto); line-height: 1.6; }
+
+  /* Portada */
+  header {
+    background: linear-gradient(135deg, var(--morado), var(--morado2));
+    color: #fff; text-align: center; padding: 60px 20px 50px;
+  }
+  header .etiqueta { background: rgba(255,255,255,.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: .9rem; margin-bottom: 14px; }
+  header h1 { font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.2; }
+  header p { opacity: .9; margin-top: 10px; font-size: 1.1rem; }
+
+  /* Menú */
+  nav {
+    position: sticky; top: 0; z-index: 5; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    display: flex; gap: 6px; overflow-x: auto; padding: 10px 14px;
+  }
+  nav a {
+    white-space: nowrap; text-decoration: none; color: var(--morado); font-weight: 700;
+    padding: 6px 14px; border-radius: 20px; font-size: .9rem;
+  }
+  nav a:hover { background: var(--fondo); }
+
+  main { max-width: 900px; margin: 0 auto; padding: 30px 18px 60px; }
+  section { background: #fff; border-radius: 14px; padding: 28px; margin-bottom: 26px; box-shadow: 0 3px 12px rgba(70,23,143,.08); }
+  h2 { color: var(--morado); font-size: 1.6rem; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  h2 .num { background: var(--morado); color: #fff; border-radius: 50%; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  h3 { color: var(--morado2); margin: 18px 0 8px; }
+  p { margin-bottom: 12px; }
+  .clave { background: #fff5d6; border-left: 5px solid var(--amarillo); padding: 12px 16px; border-radius: 6px; margin: 14px 0; }
+  .clave b { color: #9a6f00; }
+
+  /* Tarjetas */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 14px 0; }
+  .tarjeta { border-radius: 10px; padding: 18px; color: #fff; }
+  .tarjeta h4 { font-size: 1.1rem; margin-bottom: 6px; }
+  .rojo { background: var(--rojo); } .azul { background: var(--azul); }
+  .amarillo { background: var(--amarillo); } .verde { background: var(--verde); } .morado { background: var(--morado2); }
+
+  /* Chips de valores */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .chip { background: var(--fondo); color: var(--morado); font-weight: 700; padding: 6px 14px; border-radius: 20px; border: 2px solid var(--morado2); }
+
+  /* Polaridad: tarjetas que se voltean */
+  .polos { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 14px 0; }
+  .flip { perspective: 800px; height: 110px; cursor: pointer; }
+  .flip-in { position: relative; width: 100%; height: 100%; transition: transform .6s; transform-style: preserve-3d; }
+  .flip.volteada .flip-in { transform: rotateY(180deg); }
+  .cara { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.3rem; }
+  .cara small { font-weight: 400; font-size: .8rem; opacity: .9; }
+  .pos { background: var(--verde); }
+  .neg { background: var(--rojo); transform: rotateY(180deg); }
+
+  /* Escalera de jerarquía */
+  .escalera { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .escalon { color: #fff; padding: 12px 16px; border-radius: 8px; font-weight: 700; }
+
+  /* Diagrama de axiología */
+  .diagrama { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 16px 0; }
+  .nodo { padding: 10px 18px; border-radius: 8px; font-weight: 700; text-align: center; color: #fff; }
+  .flecha { font-size: 1.4rem; color: var(--morado2); line-height: 1; }
+  .fila { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+  /* Línea del tiempo */
+  .tiempo { position: relative; margin: 20px 0 10px 10px; padding-left: 26px; border-left: 4px solid var(--morado2); }
+  .evento { position: relative; margin-bottom: 22px; }
+  .evento::before { content: ""; position: absolute; left: -36px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--morado); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--morado2); }
+  .evento .epoca { font-size: .85rem; font-weight: 700; color: var(--morado2); text-transform: uppercase; }
+  .evento h4 { color: var(--morado); font-size: 1.15rem; }
+
+  /* Comparación */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+  th, td { padding: 10px 12px; border: 1px solid #e3dcef; text-align: left; vertical-align: top; }
+  th { background: var(--morado); color: #fff; }
+  tr:nth-child(even) td { background: #faf8fd; }
+
+  /* Mini repaso */
+  .pregunta { margin: 16px 0; }
+  .pregunta p { font-weight: 700; }
+  .resp { display: block; width: 100%; text-align: left; padding: 10px 14px; margin: 6px 0; border: 2px solid #e3dcef; background: #fff; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+  .resp:hover { border-color: var(--morado2); }
+  .resp.ok { background: #e3f6dd; border-color: var(--verde); }
+  .resp.no { background: #fde3e7; border-color: var(--rojo); }
+  .fb { font-size: .9rem; margin-top: 4px; min-height: 1.2em; }
+
+  .btn { display: inline-block; background: var(--morado); color: #fff; text-decoration: none; font-weight: 800; padding: 14px 30px; border-radius: 8px; box-shadow: 0 4px 0 #2d0e5e; }
+  footer { text-align: center; padding: 30px 20px; color: #777; font-size: .9rem; }
+  .pista { font-size: .85rem; color: #777; font-style: italic; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="etiqueta">Ética · Bloque 3</div>
+  <h1>Paradigmas de lo humano<br>El valor de la experiencia humana</h1>
+  <p>Resumen interactivo del tema (páginas 129 a 133)</p>
+</header>
+
+<nav>
+  <a href="#valores">1. Valores</a>
+  <a href="#acceso">2. Acceso</a>
+  <a href="#caracteristicas">3. Características</a>
+  <a href="#axiologia">4. Axiología</a>
+  <a href="#nietzsche">5. Nietzsche</a>
+  <a href="#dignidad">6. Dignidad</a>
+  <a href="#personalismo">7. Personalismo</a>
+  <a href="#repaso">8. Repaso</a>
+</nav>
+
+<main>
+
+<!-- 1 -->
+<section id="valores">
+  <h2><span class="num">1</span> ¿Qué son los valores y los juicios de valor?</h2>
+  <p>Todo el tiempo estamos <b>valorando</b>: decimos que algo nos gusta o nos desagrada, que una pintura es bonita, que alguien es buen estudiante o buena persona. A eso se le llama emitir <b>juicios de valor</b>.</p>
+  <p>Por eso buscamos lo que nos parece <b>valioso</b> y rechazamos lo que nos impide realizarnos plenamente como personas.</p>
+  <div class="clave"><b>Idea clave:</b> los valores son parte esencial de la experiencia humana, y por eso los buscamos con tanto esfuerzo.</div>
+  <p>Algunos de los valores más importantes son:</p>
+  <div class="chips">
+    <span class="chip">Justicia</span><span class="chip">Paz</span><span class="chip">Amor</span>
+    <span class="chip">Bondad</span><span class="chip">Dignidad</span>
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="acceso">
+  <h2><span class="num">2</span> ¿Cómo llegamos al "reino de los valores"?</h2>
+  <p>Según el libro, para acceder a los valores se necesitan <b>tres atributos</b>:</p>
+  <div class="grid">
+    <div class="tarjeta rojo"><h4>▲ Ser un ente real</h4>Existir de verdad y estar dentro de la vida, la naturaleza y la historia.</div>
+    <div class="tarjeta azul"><h4>◆ Tener sentido de lo valioso</h4>Ser capaz de escuchar la voz de la conciencia interior.</div>
+    <div class="tarjeta verde"><h4>■ Poder realizar los valores</h4>Llevar a la práctica los valores que percibimos, haciendo caso a nuestra propia conciencia.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="caracteristicas">
+  <h2><span class="num">3</span> Características de los valores</h2>
+
+  <h3>a) El valor tiene un fin</h3>
+  <p>Algo vale cuando sirve para un propósito o <b>finalidad</b>. Por ejemplo, un acto solidario es valioso porque ayuda a mejorar las relaciones entre personas, y un rito religioso es valioso porque conecta al creyente con lo divino.</p>
+
+  <h3>b) Polaridad</h3>
+  <p>Todo valor tiene un <b>opuesto</b> (un antivalor). Siempre nos movemos entre lo positivo y lo negativo. <span class="pista">Toca cada tarjeta para ver su opuesto.</span></p>
+  <div class="polos">
+    <div class="flip" onclick="this.classList.toggle('volteada')"><div class="flip-in"><div class="cara pos">Bello<small>valor</small></div><div class="cara neg">Feo<small>antivalor</small></div></div></div>
+    <div class="flip" onclick="this.classList.toggle('volteada')"><div class="flip-in"><div class="cara pos">Bueno<small>valor</small></div><div class="cara neg">Malo<small>antivalor</small></div></div></div>
+    <div class="flip" onclick="this.classList.toggle('volteada')"><div class="flip-in"><div class="cara pos">Justo<small>valor</small></div><div class="cara neg">Injusto<small>antivalor</small></div></div></div>
+    <div class="flip" onclick="this.classList.toggle('volteada')"><div class="flip-in"><div class="cara pos">Verdadero<small>valor</small></div><div class="cara neg">Falso<small>antivalor</small></div></div></div>
+  </div>
+
+  <h3>c) Jerarquía</h3>
+  <p>Los valores se pueden <b>ordenar</b> de superiores a inferiores. Hay desacuerdo sobre cuáles van arriba: algunos dicen que los estéticos y otros que los morales. Algunos filósofos hicieron <b>tablas de valores</b>. Por ejemplo, <b>Max Scheler</b> pensaba que los valores son objetivos y universales, y puso en lo más alto el valor de <b>lo santo</b>.</p>
+  <div class="escalera">
+    <div class="escalon" style="background:#46178f;width:100%">Valores superiores (lo santo, según Scheler)</div>
+    <div class="escalon" style="background:#6a32b0;width:85%">Valores morales / espirituales</div>
+    <div class="escalon" style="background:#864cbf;width:70%">Valores estéticos</div>
+    <div class="escalon" style="background:#a77ad6;width:55%">Valores inferiores</div>
+  </div>
+  <p class="pista">Esta escalera es solo un ejemplo para visualizar la idea de jerarquía.</p>
+
+  <h3>d) Están en la vida diaria</h3>
+  <p>Los valores se expresan en nuestra familia, en la escuela y en la comunidad. Son inseparables del ser humano.</p>
+</section>
+
+<!-- 4 -->
+<section id="axiologia">
+  <h2><span class="num">4</span> La axiología</h2>
+  <p>La <b>axiología</b> es la rama de la filosofía que estudia los valores: qué son, cuál es su esencia, por qué existen y qué función cumplen en la sociedad. Es una de las disciplinas filosóficas <b>más recientes</b>.</p>
+  <p>Este mapa resume la Figura 3.5 del libro, que muestra la axiología y su campo de acción:</p>
+  <div class="diagrama">
+    <div class="nodo verde">Paradigma de lo humano</div>
+    <div class="flecha">↓</div>
+    <div class="nodo azul">Juicios de valor</div>
+    <div class="flecha">↓</div>
+    <div class="fila">
+      <div class="nodo azul">El valor tiene un fin</div>
+      <div class="nodo azul">Justicia · Paz · Amor · Bondad · Dignidad</div>
+    </div>
+    <div class="flecha">↓</div>
+    <div class="nodo azul">Polaridad</div>
+    <div class="fila">
+      <div class="nodo verde">Bello · Bueno · Justo</div>
+      <div class="nodo rojo">Feo · Malo · Injusto</div>
+    </div>
+    <div class="flecha">↓</div>
+    <div class="nodo amarillo">Jerarquía</div>
+    <div class="flecha">↓</div>
+    <div class="fila">
+      <div class="nodo amarillo">Valores que incluyen a otros</div>
+      <div class="nodo amarillo">Valores universales</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="nietzsche">
+  <h2><span class="num">5</span> Nietzsche y el superhombre</h2>
+  <p><b>Friedrich Nietzsche</b> propuso una <b>transmutación de los valores</b>: cambiar los valores tradicionales por otros nuevos. Planteó la idea del <b>superhombre</b>, alguien libre de los valores del pasado, autónomo y con voluntad de poder, que crea sus propios valores.</p>
+  <p>Para él, lo que impulsa la vida es valioso y lo que la debilita no lo es. Por eso criticó valores defendidos por el <b>cristianismo</b>, como la <b>caridad</b> y la <b>humildad</b>.</p>
+  <div class="clave"><b>Para leer más:</b> el libro recomienda <i>La genealogía de la moral</i>, de Nietzsche.</div>
+</section>
+
+<!-- 6 -->
+<section id="dignidad">
+  <h2><span class="num">6</span> La dignidad: el valor supremo</h2>
+  <p>La <b>dignidad</b> es uno de los valores más altos de la experiencia humana. Es un ideal que está <b>por encima</b> de las diferencias sociales, el dinero o el talento. Por eso es un <b>valor universal</b>: no depende de lo que nos hace diferentes (color de piel, riqueza), sino de lo que <b>todos tenemos en común</b>, que es la razón.</p>
+
+  <h3>Cómo se ha entendido la dignidad en la historia</h3>
+  <div class="tiempo">
+    <div class="evento">
+      <div class="epoca">Antigua Grecia</div>
+      <h4>Los estoicos</h4>
+      <p>Una persona virtuosa y digna es la que vive de acuerdo con la <b>razón</b>.</p>
+    </div>
+    <div class="evento">
+      <div class="epoca">Edad Media</div>
+      <h4>Tomás de Aquino</h4>
+      <p>Dios dio la razón a <b>todos</b> los seres humanos por igual, y eso los pone en un lugar privilegiado frente a las demás criaturas. Todos somos hijos de Dios y por eso todos tenemos la misma dignidad.</p>
+    </div>
+    <div class="evento">
+      <div class="epoca">Renacimiento</div>
+      <h4>Giovanni Pico della Mirandola (1463-1494)</h4>
+      <p>En su <i>Oración sobre la dignidad del hombre</i> explica que el ser humano fue creado <b>sin una naturaleza fija</b>. A diferencia de los animales, tiene la <b>facultad de elegir</b>: él mismo decide en qué se convierte. Ahí está su dignidad: en su <b>libertad</b>.</p>
+    </div>
+    <div class="evento">
+      <div class="epoca">Ilustración (siglo XVIII)</div>
+      <h4>Immanuel Kant</h4>
+      <p>La dignidad viene de la <b>razón</b> y de la <b>ley moral</b> que nace dentro de cada persona, no de una autoridad externa. Su idea principal: <b>trata a los demás siempre como un fin y nunca solo como un medio</b>.</p>
+    </div>
+    <div class="evento">
+      <div class="epoca">Visión cristiana</div>
+      <h4>El hombre como imagen de Dios</h4>
+      <p>El ser humano tiene un valor especial porque fue hecho a imagen de Dios.</p>
+    </div>
+  </div>
+
+  <div class="clave"><b>Conclusión:</b> todas las personas somos <b>iguales en dignidad</b> y merecemos respeto. La discriminación por raza, religión, política o dinero no se justifica. Humillar a alguien por ser pobre, indígena, mujer, extranjero, tener una discapacidad o ser mayor muestra un desarrollo cultural muy pobre.</div>
+</section>
+
+<!-- 7 -->
+<section id="personalismo">
+  <h2><span class="num">7</span> El personalismo</h2>
+  <p>El <b>personalismo</b> es una corriente de la ética que le da un valor muy importante a la <b>persona</b>.</p>
+
+  <h3>Max Scheler: individuo vs. persona</h3>
+  <table>
+    <tr><th>Individuo</th><th>Persona</th></tr>
+    <tr>
+      <td>No tiene cualidades propias. Es solo un número: el número de un soldado, la matrícula de un alumno o un número de afiliación.</td>
+      <td>Va más allá del "yo" egoísta. Es madura, consciente y libre. Se caracteriza por un <b>amor desinteresado</b>, como la caridad cristiana, que le permite relacionarse de verdad con los demás.</td>
+    </tr>
+  </table>
+
+  <h3>Antonio Caso: cosa, individuo y persona</h3>
+  <p>El filósofo mexicano <b>Antonio Caso</b> ordena los seres en una jerarquía:</p>
+  <div class="grid">
+    <div class="tarjeta amarillo"><h4>1. Cosa</h4>Es el nivel más bajo. No tiene unidad: si se rompe, sus pedazos siguen siendo cosas. Pertenece al mundo físico.</div>
+    <div class="tarjeta azul"><h4>2. Individuo</h4>No se puede dividir sin morir. Pertenece al mundo orgánico, como los animales.</div>
+    <div class="tarjeta morado"><h4>3. Persona</h4>El ser humano. Su superioridad no está en lo biológico, sino en su <b>ser espiritual</b>.</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="repaso">
+  <h2><span class="num">8</span> Mini repaso</h2>
+  <p>Contesta para comprobar lo que aprendiste:</p>
+  <div id="quiz"></div>
+  <p id="totalRepaso" style="font-weight:700;margin-top:10px"></p>
+  <div style="text-align:center;margin-top:24px">
+    <a class="btn" href="index.html">🎮 Jugar el Kahoot del tema</a>
+  </div>
+</section>
+
+</main>
+
+<footer>El valor de la experiencia humana · Resumen de estudio</footer>
+
+<script>
+  // Preguntas del mini repaso: c = índice de la respuesta correcta
+  const repaso = [
+    { p: "¿Qué rama de la filosofía estudia los valores?", o: ["Lógica", "Axiología", "Estética", "Metafísica"], c: 1, e: "La axiología estudia la esencia y la función de los valores." },
+    { p: "Bello / feo y justo / injusto son ejemplos de…", o: ["Jerarquía", "Finalidad", "Polaridad", "Universalidad"], c: 2, e: "Cada valor tiene su opuesto: eso es la polaridad." },
+    { p: "¿Quién puso el valor de lo santo en lo más alto de su tabla de valores?", o: ["Nietzsche", "Kant", "Max Scheler", "Pico della Mirandola"], c: 2, e: "Max Scheler consideraba los valores objetivos y universales, con lo santo en la cima." },
+    { p: "¿Quién propuso el superhombre y la transmutación de los valores?", o: ["Nietzsche", "Tomás de Aquino", "Antonio Caso", "Kant"], c: 0, e: "Nietzsche quería un ser humano libre de los valores del pasado." },
+    { p: "Según Kant, debemos tratar a las personas como…", o: ["Un medio", "Un fin en sí mismas", "Un número", "Una cosa"], c: 1, e: "Para Kant, cada persona tiene dignidad y nunca debe usarse solo como medio." },
+    { p: "Para Pico della Mirandola, la dignidad humana está en…", o: ["La riqueza", "La fuerza", "La libertad de elegir", "La edad"], c: 2, e: "El ser humano decide en qué se convierte; esa es su dignidad." },
+    { p: "Para Antonio Caso, ¿cuál es el orden de menor a mayor?", o: ["Persona, individuo, cosa", "Cosa, individuo, persona", "Individuo, cosa, persona", "Cosa, persona, individuo"], c: 1, e: "Cosa (mundo físico), individuo (mundo orgánico) y persona (ser espiritual)." }
+  ];
+
+  let correctas = 0, contestadas = 0;
+  const cont = document.getElementById("quiz");
+
+  repaso.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "pregunta";
+    div.innerHTML = `<p>${i + 1}. ${q.p}</p>`;
+    const fb = document.createElement("div");
+    fb.className = "fb";
+    q.o.forEach((txt, j) => {
+      const b = document.createElement("button");
+      b.className = "resp";
+      b.textContent = txt;
+      b.onclick = () => {
+        if (div.dataset.hecha) return;
+        div.dataset.hecha = 1;
+        contestadas++;
+        const botones = div.querySelectorAll(".resp");
+        botones[q.c].classList.add("ok");
+        if (j === q.c) { correctas++; fb.textContent = "✅ ¡Correcto! " + q.e; }
+        else { b.classList.add("no"); fb.textContent = "❌ " + q.e; }
+        if (contestadas === repaso.length)
+          document.getElementById("totalRepaso").textContent = `Resultado: ${correctas} de ${repaso.length} correctas.`;
+      };
+      div.appendChild(b);
+    });
+    div.appendChild(fb);
+    cont.appendChild(div);
+  });
+</script>
+</body>
+</html>
